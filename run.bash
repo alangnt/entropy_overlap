@@ -9,4 +9,4 @@ else
   cd build
 fi
 
-./entropy-collision
+./entropy_overlap
