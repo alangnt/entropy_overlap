@@ -73,7 +73,7 @@ bool checkIfPartiallyOverlaping() {
   double distance1 = R - r;
   double distance2 = R + r;
 
-  bool is_partially_overlaping = (distance1 < d) & (d < distance2);
+  bool is_partially_overlaping = (distance1 < d) && (d < distance2);
   std::cout << "Partially Overlaping: " << is_partially_overlaping << std::endl;
   return is_partially_overlaping;
 }
