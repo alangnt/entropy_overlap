@@ -121,17 +121,20 @@ double calculatePlanetSegment(double theta_r) {
 }
 
 // Step 5
-bool crossCheck(double overlap) {
+bool crossCheck(double theta_R, double theta_r, double h, double overlap) {
   // Term 1. R**2 * acos((d**2 + R**2 − r**2) / (2 * d * R))
+  // or R**2 * θ_R
   // Term 2. r**2 * acos((d**2 + r**2 − R**2) / (2 * d * r))
+  // or r**2 * θ_r
   // Term 3. 1/2 * sqrt((−d + R + r) * (d + R − r) * (d − R + r) * (d + R + r))
-  double term1 = (R*R) * std::acos(((d*d) + (R*R) - (r*r)) / (2*d*R));
-  double term2 = (r*r) * std::acos(((d*d) + (r*r) - (R*R)) / (2*d*r));
-  double term3 = 0.5 * std::sqrt(((-d) + R + r) * (d + R - r) * (d - R + r) * (d + R + r));
+  // or d * h
+  double term1 = (R*R) * theta_R;
+  double term2 = (r*r) * theta_r;
+  double term3 = d * h;
 
   double total_terms = term1 + term2 - term3;
 
-  bool checksOut = total_terms == overlap;
+  bool checksOut = std::fabs(total_terms - overlap) < 1e-9;
   return checksOut;
 }
 
@@ -156,7 +159,7 @@ int main() {
     double x2 = locatePlanetChord(x1);
 
     // Step 2
-    double chord_height = calculateStarChordHeight(x1);
+    double h = calculateStarChordHeight(x1);
 
     // Step 3
     double theta_R = calculateStarHalfAngle(x1);
@@ -168,7 +171,7 @@ int main() {
     double overlap = star_segment + planet_segment;
 
     // Step 5
-    bool cross_check = crossCheck(overlap);
+    bool cross_check = crossCheck(theta_R, theta_r, h, overlap);
 
     // Step 6
     double blocked_fraction = calculateBlockedFraction(overlap);
