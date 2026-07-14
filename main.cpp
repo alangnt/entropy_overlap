@@ -190,7 +190,8 @@ int main() {
 
     if (is_totally_overlaping) {
       double overlap = (r / R) * (r / R);
-      std::cout << "Blocked Fraction: " << overlap << "%" << std::endl;
+      double overlap_percentage = overlap * 100;
+      std::cout << "Blocked Fraction: " << overlap_percentage << "%" << std::endl;
       return 0;
     }
   }
