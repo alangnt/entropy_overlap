@@ -134,8 +134,11 @@ bool crossCheck(double theta_R, double theta_r, double h, double overlap) {
 
   double total_terms = term1 + term2 - term3;
 
-  bool checksOut = std::fabs(total_terms - overlap) < 1e-9;
-  return checksOut;
+  bool checks_out = std::fabs(total_terms - overlap) < 1e-9;
+
+  std::cout << "Cross-check passes: " << std::boolalpha << checks_out << std::endl;
+
+  return checks_out;
 }
 
 // Step 6
