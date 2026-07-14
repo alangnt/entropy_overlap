@@ -186,7 +186,8 @@ int main() {
     bool is_totally_overlaping = d <= distance;
 
     if (is_totally_overlaping) {
-      std::cout << "Blocked Fraction: 100%" << std::endl;
+      double overlap = (r / R) * (r / R);
+      std::cout << "Blocked Fraction: " << overlap << "%" << std::endl;
       return 0;
     }
   }
