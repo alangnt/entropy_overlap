@@ -69,13 +69,13 @@ const double r = 3.0;
 const double d = 4.0;
 
 // Preliminary check
-bool checkIfPartiallyOverlaping() {
+bool checkIfPartiallyOverlapping() {
   double distance1 = R - r;
   double distance2 = R + r;
 
-  bool is_partially_overlaping = (distance1 < d) && (d < distance2);
-  std::cout << "Partially Overlaping: " << is_partially_overlaping << std::endl;
-  return is_partially_overlaping;
+  bool is_partially_overlapping = (distance1 < d) && (d < distance2);
+  std::cout << "Partially Overlapping: " << is_partially_overlapping << std::endl;
+  return is_partially_overlapping;
 }
 
 // Step 1
@@ -153,9 +153,9 @@ double calculateBlockedFraction(double overlap) {
 
 int main() {
   // Preliminary check
-  bool is_partially_overlaping = checkIfPartiallyOverlaping();
+  bool is_partially_overlapping = checkIfPartiallyOverlapping();
 
-  if (is_partially_overlaping == 1)
+  if (is_partially_overlapping == 1)
   {
     // Step 1
     double x1 = locateStarChord();
@@ -184,19 +184,19 @@ int main() {
   }
   else
   {
-    // Check if totally overlaping
+    // Check if totally overlapping
     double distance = R - r;
-    bool is_totally_overlaping = d <= distance;
+    bool is_totally_overlapping = d <= distance;
 
-    if (is_totally_overlaping) {
-      double overlap = (r / R) * (r / R);
-      double overlap_percentage = overlap * 100;
-      std::cout << "Blocked Fraction: " << overlap_percentage << "%" << std::endl;
+    if (is_totally_overlapping) {
+      double blocked_fraction = (r / R) * (r / R);
+      double blocked_percentage = blocked_fraction * 100;
+      std::cout << "Blocked Fraction: " << blocked_percentage << "%" << std::endl;
       return 0;
     }
   }
 
-  // If not overlaping at all
-  std::cout << "Blocked Fraction: 0%" << std::endl;
+  // If not overlapping at all
+  std::cout << "Not overlapping" << std::endl;
   return 0;
 }
