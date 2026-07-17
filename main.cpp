@@ -64,77 +64,92 @@
 // Blocked fraction = 18.22 / 78.54
 // Blocked fraction = 0.232 = 23%
 
-const double R = 5.0;
-const double r = 3.0;
-const double d = 4.0;
+// Input float number
+double requestFloatNumber() {
+  double float_number = 0.0;
+
+  while (true) {
+    std::cout << "Enter your age: ";
+
+    if (std::cin >> float_number) {
+      break;
+    }
+
+    std::cout << "Invalid input. Please enter a valid float number.\n";
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  }
+
+  return float_number;
+}
 
 // Preliminary check
-bool checkIfPartiallyOverlapping() {
-  double distance1 = R - r;
-  double distance2 = R + r;
+bool checkIfPartiallyOverlapping(const double R, const double r, const double d) {
+  const double distance1 = R - r;
+  const double distance2 = R + r;
 
-  bool is_partially_overlapping = (distance1 < d) && (d < distance2);
+  const bool is_partially_overlapping = (distance1 < d) && (d < distance2);
   std::cout << "Partially Overlapping: " << is_partially_overlapping << std::endl;
   return is_partially_overlapping;
 }
 
 // Step 1
-double locateStarChord() {
+double locateStarChord(const double R, const double r, const double d) {
   // x1 = ((d**2) + (R**2) - (r**2)) / (2 * d)
-  double x1 = ((d*d) + (R*R) - (r*r)) / (2 * d);
+  const double x1 = ((d*d) + (R*R) - (r*r)) / (2 * d);
   return x1;
 }
-double locatePlanetChord(double x1) {
-  double x2 = d - x1;
+double locatePlanetChord(const double d, const double x1) {
+  const double x2 = d - x1;
   return x2;
 }
 
 // Step 2
-double calculateStarChordHeight(double x1) {
+double calculateStarChordHeight(const double R, const double x1) {
   // h = sqrt((R**2) - (x1**2))
-  double h = std::sqrt((R*R) - (x1*x1));
+  const double h = std::sqrt((R*R) - (x1*x1));
   return h;
 }
 
 // Step 3
-double calculateStarHalfAngle(double x1) {
+double calculateStarHalfAngle(const double R, const double x1) {
   // θ_R = acos(x1 / R)
-  double theta_R = std::acos(x1 / R);
+  const double theta_R = std::acos(x1 / R);
   return theta_R;
 }
-double calculatePlanetHalfAngle(double x2) {
+double calculatePlanetHalfAngle(const double r, const double x2) {
   // θ_r = acos(x2 / r)
-  double theta_r = std::acos(x2 / r);
+  const double theta_r = std::acos(x2 / r);
   return theta_r;
 }
 
 // Step 4
-double calculateStarSegment(double theta_R) {
+double calculateStarSegment(const double R, const double theta_R) {
   // R**2 * (θ − (sinθ * cosθ))
-  double star_segment = (R*R) * (theta_R - (std::sin(theta_R) * std::cos(theta_R)));
+  const double star_segment = (R*R) * (theta_R - (std::sin(theta_R) * std::cos(theta_R)));
   return star_segment;
 }
-double calculatePlanetSegment(double theta_r) {
+double calculatePlanetSegment(const double r, const double theta_r) {
   // r**2 * (θ − (sinθ * cosθ))
-  double planet_segment = (r*r) * (theta_r - (std::sin(theta_r) * std::cos(theta_r)));
+  const double planet_segment = (r*r) * (theta_r - (std::sin(theta_r) * std::cos(theta_r)));
   return planet_segment;
 }
 
 // Step 5
-bool crossCheck(double theta_R, double theta_r, double h, double overlap) {
+bool crossCheck(const double R, const double r, const double d, double theta_R, double theta_r, double h, double overlap) {
   // Term 1. R**2 * acos((d**2 + R**2 − r**2) / (2 * d * R))
   // or R**2 * θ_R
   // Term 2. r**2 * acos((d**2 + r**2 − R**2) / (2 * d * r))
   // or r**2 * θ_r
   // Term 3. 1/2 * sqrt((−d + R + r) * (d + R − r) * (d − R + r) * (d + R + r))
   // or d * h
-  double term1 = (R*R) * theta_R;
-  double term2 = (r*r) * theta_r;
-  double term3 = d * h;
+  const double term1 = (R*R) * theta_R;
+  const double term2 = (r*r) * theta_r;
+  const double term3 = d * h;
 
-  double total_terms = term1 + term2 - term3;
+  const double total_terms = term1 + term2 - term3;
 
-  bool checks_out = std::fabs(total_terms - overlap) < 1e-9;
+  const bool checks_out = std::fabs(total_terms - overlap) < 1e-9;
 
   std::cout << "Cross-check passes: " << std::boolalpha << checks_out << std::endl;
 
@@ -142,58 +157,58 @@ bool crossCheck(double theta_R, double theta_r, double h, double overlap) {
 }
 
 // Step 6
-double calculateBlockedFraction(double overlap) {
+double calculateBlockedFraction(const double R, const double overlap) {
   // Blocked fraction = overlap / (pi * R**2)
-  double pi = std::numbers::pi;
-  double blocked_fraction_raw = overlap / (pi * (R*R));
-  double blocked_fraction = blocked_fraction_raw * 100;
+  constexpr double pi = std::numbers::pi;
+  const double blocked_fraction_raw = overlap / (pi * (R*R));
+  const double blocked_fraction = blocked_fraction_raw * 100;
 
   return blocked_fraction;
 }
 
 int main() {
+  // Request R, r and d
+  const double R = 0.0;
+  const double r = 0.0;
+  const double d = 0.0;
+
   // Preliminary check
-  bool is_partially_overlapping = checkIfPartiallyOverlapping();
+  bool is_partially_overlapping = checkIfPartiallyOverlapping(R, r, d);
 
   if (is_partially_overlapping == 1)
   {
     // Step 1
-    double x1 = locateStarChord();
-    double x2 = locatePlanetChord(x1);
+    const double x1 = locateStarChord(R, r, d);
+    const double x2 = locatePlanetChord(d, x1);
 
     // Step 2
-    double h = calculateStarChordHeight(x1);
+    const double h = calculateStarChordHeight(R, x1);
 
     // Step 3
-    double theta_R = calculateStarHalfAngle(x1);
-    double theta_r = calculatePlanetHalfAngle(x2);
+    const double theta_R = calculateStarHalfAngle(R, x1);
+    const double theta_r = calculatePlanetHalfAngle(r, x2);
 
     // Step 4
-    double star_segment = calculateStarSegment(theta_R);
-    double planet_segment = calculatePlanetSegment(theta_r);
-    double overlap = star_segment + planet_segment;
+    const double star_segment = calculateStarSegment(R, theta_R);
+    const double planet_segment = calculatePlanetSegment(r, theta_r);
+    const double overlap = star_segment + planet_segment;
 
     // Step 5
-    bool cross_check = crossCheck(theta_R, theta_r, h, overlap);
+    crossCheck(R, r, d, theta_R, theta_r, h, overlap);
 
     // Step 6
-    double blocked_fraction = calculateBlockedFraction(overlap);
+    const double blocked_fraction = calculateBlockedFraction(R, overlap);
 
     std::cout << "Blocked Fraction: " << blocked_fraction << "%" << std::endl;
     return 0;
   }
-  else
-  {
-    // Check if totally overlapping
-    double distance = R - r;
-    bool is_totally_overlapping = d <= distance;
 
-    if (is_totally_overlapping) {
-      double blocked_fraction = (r / R) * (r / R);
-      double blocked_percentage = blocked_fraction * 100;
-      std::cout << "Blocked Fraction: " << blocked_percentage << "%" << std::endl;
-      return 0;
-    }
+  // Check if totally overlapping
+  if (d <= R - r) {
+    const double blocked_fraction = (r / R) * (r / R);
+    const double blocked_percentage = blocked_fraction * 100;
+    std::cout << "Blocked Fraction: " << blocked_percentage << "%" << std::endl;
+    return 0;
   }
 
   // If not overlapping at all
