@@ -1,6 +1,8 @@
 #include <iostream>
 #include <numbers>
 #include <cmath>
+#include <limits>
+#include <string>
 
 // Star:        R = 5
 // Planet:      r = 3
