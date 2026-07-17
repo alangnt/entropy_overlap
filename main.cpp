@@ -65,7 +65,7 @@
 // Blocked fraction = 0.232 = 23%
 
 // Input float number
-double requestFloatNumber(const std::string& request_input) {
+static double requestFloatNumber(const std::string& request_input) {
   double float_number = 0.0;
 
   while (true) {
@@ -84,7 +84,7 @@ double requestFloatNumber(const std::string& request_input) {
 }
 
 // Preliminary check
-bool checkIfPartiallyOverlapping(const double R, const double r, const double d) {
+static bool checkIfPartiallyOverlapping(const double R, const double r, const double d) {
   const double distance1 = R - r;
   const double distance2 = R + r;
 
@@ -94,49 +94,49 @@ bool checkIfPartiallyOverlapping(const double R, const double r, const double d)
 }
 
 // Step 1
-double locateStarChord(const double R, const double r, const double d) {
+static double locateStarChord(const double R, const double r, const double d) {
   // x1 = ((d**2) + (R**2) - (r**2)) / (2 * d)
   const double x1 = ((d*d) + (R*R) - (r*r)) / (2 * d);
   return x1;
 }
-double locatePlanetChord(const double d, const double x1) {
+static double locatePlanetChord(const double d, const double x1) {
   const double x2 = d - x1;
   return x2;
 }
 
 // Step 2
-double calculateStarChordHeight(const double R, const double x1) {
+static double calculateStarChordHeight(const double R, const double x1) {
   // h = sqrt((R**2) - (x1**2))
   const double h = std::sqrt((R*R) - (x1*x1));
   return h;
 }
 
 // Step 3
-double calculateStarHalfAngle(const double R, const double x1) {
+static double calculateStarHalfAngle(const double R, const double x1) {
   // θ_R = acos(x1 / R)
   const double theta_R = std::acos(x1 / R);
   return theta_R;
 }
-double calculatePlanetHalfAngle(const double r, const double x2) {
+static double calculatePlanetHalfAngle(const double r, const double x2) {
   // θ_r = acos(x2 / r)
   const double theta_r = std::acos(x2 / r);
   return theta_r;
 }
 
 // Step 4
-double calculateStarSegment(const double R, const double theta_R) {
+static double calculateStarSegment(const double R, const double theta_R) {
   // R**2 * (θ − (sinθ * cosθ))
   const double star_segment = (R*R) * (theta_R - (std::sin(theta_R) * std::cos(theta_R)));
   return star_segment;
 }
-double calculatePlanetSegment(const double r, const double theta_r) {
+static double calculatePlanetSegment(const double r, const double theta_r) {
   // r**2 * (θ − (sinθ * cosθ))
   const double planet_segment = (r*r) * (theta_r - (std::sin(theta_r) * std::cos(theta_r)));
   return planet_segment;
 }
 
 // Step 5
-bool crossCheck(const double R, const double r, const double d, const double theta_R, const double theta_r, const double h, const double overlap) {
+static bool crossCheck(const double R, const double r, const double d, const double theta_R, const double theta_r, const double h, const double overlap) {
   // Term 1. R**2 * acos((d**2 + R**2 − r**2) / (2 * d * R))
   // or R**2 * θ_R
   // Term 2. r**2 * acos((d**2 + r**2 − R**2) / (2 * d * r))
@@ -157,7 +157,7 @@ bool crossCheck(const double R, const double r, const double d, const double the
 }
 
 // Step 6
-double calculateBlockedFraction(const double R, const double overlap) {
+static double calculateBlockedFraction(const double R, const double overlap) {
   // Blocked fraction = overlap / (pi * R**2)
   constexpr double pi = std::numbers::pi;
   const double blocked_fraction_raw = overlap / (pi * (R*R));
