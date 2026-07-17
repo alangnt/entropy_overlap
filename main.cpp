@@ -65,11 +65,11 @@
 // Blocked fraction = 0.232 = 23%
 
 // Input float number
-double requestFloatNumber() {
+double requestFloatNumber(const std::string& request_input) {
   double float_number = 0.0;
 
   while (true) {
-    std::cout << "Enter your age: ";
+    std::cout << request_input << ": ";
 
     if (std::cin >> float_number) {
       break;
@@ -136,7 +136,7 @@ double calculatePlanetSegment(const double r, const double theta_r) {
 }
 
 // Step 5
-bool crossCheck(const double R, const double r, const double d, double theta_R, double theta_r, double h, double overlap) {
+bool crossCheck(const double R, const double r, const double d, const double theta_R, const double theta_r, const double h, const double overlap) {
   // Term 1. R**2 * acos((d**2 + R**2 − r**2) / (2 * d * R))
   // or R**2 * θ_R
   // Term 2. r**2 * acos((d**2 + r**2 − R**2) / (2 * d * r))
@@ -168,14 +168,12 @@ double calculateBlockedFraction(const double R, const double overlap) {
 
 int main() {
   // Request R, r and d
-  const double R = 0.0;
-  const double r = 0.0;
-  const double d = 0.0;
+  const double R = requestFloatNumber("Enter a value for R");
+  const double r = requestFloatNumber("Enter a value for r");
+  const double d = requestFloatNumber("Enter a value for d");
 
   // Preliminary check
-  bool is_partially_overlapping = checkIfPartiallyOverlapping(R, r, d);
-
-  if (is_partially_overlapping == 1)
+  if (checkIfPartiallyOverlapping(R, r, d) == 1)
   {
     // Step 1
     const double x1 = locateStarChord(R, r, d);
