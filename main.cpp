@@ -159,7 +159,7 @@ static bool crossCheck(const double R, const double r, const double d, const dou
 }
 
 // Step 6
-static double calculateBlockedFraction(const double R, const double overlap) {
+static double calculateBlockedFractionPercentage(const double R, const double overlap) {
   // Blocked fraction = overlap / (pi * R**2)
   constexpr double pi = std::numbers::pi;
   const double blocked_fraction_raw = overlap / (pi * (R*R));
@@ -197,7 +197,7 @@ int main() {
     crossCheck(R, r, d, theta_R, theta_r, h, overlap);
 
     // Step 6
-    const double blocked_fraction = calculateBlockedFraction(R, overlap);
+    const double blocked_fraction = calculateBlockedFractionPercentage(R, overlap);
 
     std::cout << "Blocked Fraction: " << blocked_fraction << "%" << std::endl;
     return 0;
