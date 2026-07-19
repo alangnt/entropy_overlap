@@ -4,68 +4,6 @@
 #include <limits>
 #include <string>
 
-// Star:        R = 5
-// Planet:      r = 3
-// Separation:  d = 4
-
-// First, we confirm we're in the partial case
-// R - r = 2 and R + r = 8
-// 2 < 4 < 8 -> Good
-
-// Step 1. Locate the chords
-// 1. Star
-// x1 = ((d**2) + (R**2) - (r**2)) / (2 * d)
-// x1 = (16 + 25 - 9) / 8
-// x1 = 32 / 8
-// x1 = 4
-// 2. Planet
-// x2 = d - x1
-// x2 = 4 - 4
-// x2 = 0
-
-// Step 2. Find the height of the chord
-// h = sqrt((R**2) - (x1**2))
-// h = sqrt(25 - 16)
-// h = sqrt(9)
-// h = 3
-
-// This means the circles cross at (4,+3) and (4,-3)
-// Planet's center is (d,0) = (4,0) with r = 3
-// This means they both genuinely pass across (4,3)
-
-// Step 3. The two half-angles
-// 1. Star
-// θ_R = acos(x1 / R)
-// θ_R = acos(4/5)
-// θ_R = acos(0.8)
-// θ_R = 0.6435rad (36.87°)
-// 2. Planet
-// θ_r = acos(x2 / r)
-// θ_r = acos(0)
-// θ_r = pi/2
-// θ_r = 1.5708rad (90°)
-
-// Step 4. Add the two segments
-// R**2 * (θ − (sinθ * cosθ))
-// 1. Star
-// Star segment = 25 * (0.6435 - 0.6 * 0.8)
-// Start segment = 4.09
-// 2. Planet
-// Planet segment = 9 * (1.5708 - 1 * 0)
-// Planet segment = 14.14
-// Overlap = 18.23
-
-// Step 5. Cross-check
-// Term 1. R**2. * acos((d**2 + R**2 − r**2) / (2 * d * R)) = 16.09
-// Term 2. r**2 * acos((d**2 + r**2 − R**2) / (2 * d * r)) = 14.14
-// Term 3. 1/2 * sqrt((−d + R + r)(d + R − r)(d − R + r)(d + R +r)) = 12.00
-// 16.09 + 14.14 - 12.00 = 18.23
-
-// Step 6. Apply to real metrics
-// Blocked fraction = overlap / (pi * R**2)
-// Blocked fraction = 18.22 / 78.54
-// Blocked fraction = 0.232 = 23%
-
 // Input float number
 static double requestFloatNumber(const std::string& request_input) {
   double float_number = 0.0;
